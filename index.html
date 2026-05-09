@@ -95,6 +95,18 @@
             animation: fadeInOut 3s ease-in-out infinite;
         }
 
+        @media (max-width: 768px) {
+            .birthday-text {
+                font-size: 2.5em;
+            }
+            .name-text {
+                font-size: 2.8em;
+            }
+            .subtitle {
+                font-size: 1.2em;
+            }
+        }
+
         @keyframes glow {
             0%, 100% {
                 text-shadow: 0 0 20px rgba(0, 0, 0, 0.3), 
@@ -196,7 +208,9 @@
         // Buat bintang di latar belakang
         function createStars() {
             const starContainer = document.getElementById('starContainer');
-            for (let i = 0; i < 50; i++) {
+            const isMobile = window.innerWidth < 768;
+            const starCount = isMobile ? 10 : 20;
+            for (let i = 0; i < starCount; i++) {
                 const star = document.createElement('div');
                 star.className = 'star';
                 star.style.left = Math.random() * 100 + '%';
@@ -254,10 +268,13 @@
         createStars();
 
         // Buat salju secara berkala
-        setInterval(createSnowflake, 100);
+        const isMobile = window.innerWidth < 768;
+        const snowInterval = isMobile ? 500 : 300;
+        const confettiInterval = isMobile ? 1000 : 500;
+        setInterval(createSnowflake, snowInterval);
 
         // Buat confetti secara berkala
-        setInterval(createConfetti, 150);
+        setInterval(createConfetti, confettiInterval);
 
         // Bonus: Play sound effect jika browser mendukung
         window.addEventListener('load', function() {
