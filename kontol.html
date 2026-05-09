@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeri Kenangan</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            color: white;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            letter-spacing: 2px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .gallery-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            animation: fadeIn 1s ease-out 0.2s both;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            height: 280px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            animation: scaleIn 0.6s ease-out backwards;
+        }
+
+        .gallery-item:nth-child(1) { animation-delay: 0.1s; }
+        .gallery-item:nth-child(2) { animation-delay: 0.2s; }
+        .gallery-item:nth-child(3) { animation-delay: 0.3s; }
+        .gallery-item:nth-child(4) { animation-delay: 0.4s; }
+        .gallery-item:nth-child(5) { animation-delay: 0.5s; }
+        .gallery-item:nth-child(6) { animation-delay: 0.6s; }
+        .gallery-item:nth-child(7) { animation-delay: 0.7s; }
+        .gallery-item:nth-child(8) { animation-delay: 0.8s; }
+
+        .gallery-item:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease-out;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease-out;
+            backdrop-filter: blur(2px);
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .overlay-content {
+            text-align: center;
+            color: white;
+            transform: translateY(20px);
+            transition: transform 0.3s ease-out;
+        }
+
+        .gallery-item:hover .overlay-content {
+            transform: translateY(0);
+        }
+
+        .overlay-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .overlay-text {
+            font-size: 1.1em;
+            font-weight: 600;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Modal Lightbox */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+            animation: zoomIn 0.3s ease-out;
+        }
+
+        .modal-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            font-size: 40px;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .close-modal:hover {
+            transform: scale(1.2);
+        }
+
+        .nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 40px;
+            color: white;
+            cursor: pointer;
+            padding: 15px 20px;
+            transition: all 0.2s;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            user-select: none;
+        }
+
+        .nav-arrow:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .nav-prev {
+            left: -80px;
+        }
+
+        .nav-next {
+            right: -80px;
+        }
+
+        .image-counter {
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: scale(0.9);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 15px;
+            }
+
+            .nav-prev {
+                left: 10px;
+            }
+
+            .nav-next {
+                right: 10px;
+            }
+
+            .gallery-item {
+                height: 200px;
+            }
+        }
+
+        .empty-state {
+            text-align: center;
+            color: white;
+            padding: 60px 20px;
+            font-size: 1.2em;
+        }
+
+        .empty-state-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📸 Galeri Kenangan</h1>
+        <p>Koleksi momen-momen indah yang takkan terlupakan</p>
+    </div>
+
+    <div class="gallery-container">
+        <div class="gallery-grid" id="galleryGrid">
+            <!-- Gallery items akan di-generate oleh JavaScript -->
+        </div>
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <div class="empty-state-icon">📁</div>
+            <p>Belum ada foto di galeri. Silakan tambahkan foto Anda!</p>
+        </div>
+    </div>
+
+    <!-- Modal Lightbox -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <span class="nav-arrow nav-prev" onclick="prevImage()">&lt;</span>
+            <img class="modal-image" id="modalImage" src="" alt="">
+            <span class="nav-arrow nav-next" onclick="nextImage()">&gt;</span>
+            <div class="image-counter">
+                <span id="currentImage">1</span> / <span id="totalImages">1</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Contoh data galeri - ganti dengan foto Anda
+        const photos = [
+            {
+                src: 'kontol1.jpeg',
+                title: 'Momen Indah 1'
+            },
+            {
+                src: 'kontol2.jpeg',
+                title: 'Momen Indah 2'
+            },
+            {
+                src: 'kontol3.jpeg',
+                title: 'Momen Indah 3'
+            },
+            {
+                src: 'kontol4.jpeg',
+                title: 'Momen Indah 4'
+            },
+            {
+                src: 'kontol5.jpeg',
+                title: 'Momen Indah 5'
+            },
+            {
+                src: 'kontol6.jpeg',
+                title: 'Momen Indah 6'
+            },
+            {
+                src: 'kontol7.jpeg',
+                title: 'Momen Indah 7'
+            },
+            {
+                src: 'kontol8.jpeg',
+                title: 'Momen Indah 8'
+            }
+        ];
+
+        let currentImageIndex = 0;
+
+        function initGallery() {
+            const galleryGrid = document.getElementById('galleryGrid');
+            const emptyState = document.getElementById('emptyState');
+
+            if (photos.length === 0) {
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            photos.forEach((photo, index) => {
+                const item = document.createElement('div');
+                item.className = 'gallery-item';
+                item.onclick = () => openModal(index);
+                item.innerHTML = `
+                    <img src="${photo.src}" alt="${photo.title}" onerror="this.src='https://via.placeholder.com/400x400?text=Photo+Error'">
+                    <div class="gallery-overlay">
+                        <div class="overlay-content">
+                            <div class="overlay-icon">🔍</div>
+                            <div class="overlay-text">Lihat Selengkapnya</div>
+                        </div>
+                    </div>
+                `;
+                galleryGrid.appendChild(item);
+            });
+
+            document.getElementById('totalImages').textContent = photos.length;
+        }
+
+        function openModal(index) {
+            currentImageIndex = index;
+            const modal = document.getElementById('modal');
+            const modalImage = document.getElementById('modalImage');
+            
+            modalImage.src = photos[index].src;
+            document.getElementById('currentImage').textContent = index + 1;
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function nextImage() {
+            currentImageIndex = (currentImageIndex + 1) % photos.length;
+            document.getElementById('modalImage').src = photos[currentImageIndex].src;
+            document.getElementById('currentImage').textContent = currentImageIndex + 1;
+        }
+
+        function prevImage() {
+            currentImageIndex = (currentImageIndex - 1 + photos.length) % photos.length;
+            document.getElementById('modalImage').src = photos[currentImageIndex].src;
+            document.getElementById('currentImage').textContent = currentImageIndex + 1;
+        }
+
+        // Close modal dengan ESC key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+            if (e.key === 'ArrowRight') nextImage();
+            if (e.key === 'ArrowLeft') prevImage();
+        });
+
+        // Close modal ketika klik di luar gambar
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('modal')) {
+                closeModal();
+            }
+        });
+
+        // Inisialisasi galeri
+        initGallery();
+    </script>
+</body>
+</html>

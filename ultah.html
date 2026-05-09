@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selamat Ulang Tahun SAYANGGKUU CINTAKUU  ❄️</title>
+    <link rel="kontol.html" href="kontol.html">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            color: #fff;
+            font-size: 1em;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            opacity: 0.9;
+            z-index: 1;
+            pointer-events: none;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            from {
+                top: -10px;
+                opacity: 1;
+            }
+            to {
+                top: 100vh;
+                opacity: 0.3;
+            }
+        }
+
+        .snowflake.slow {
+            animation: fall 15s linear infinite;
+        }
+
+        .snowflake.medium {
+            animation: fall 20s linear infinite;
+        }
+
+        .snowflake.fast {
+            animation: fall 10s linear infinite;
+        }
+
+        .container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 10;
+        }
+
+        .birthday-text {
+            font-size: 3.5em;
+            color: #fff;
+            font-weight: bold;
+            text-shadow: 0 0 20px rgba(0, 0, 0, 0.3), 
+                         0 0 40px rgba(255, 105, 180, 0.5);
+            animation: glow 2s ease-in-out infinite, float 3s ease-in-out infinite;
+            letter-spacing: 2px;
+        }
+
+        .name-text {
+            font-size: 4em;
+            color: #ffeb3b;
+            font-weight: bold;
+            text-shadow: 0 0 30px rgba(255, 235, 59, 0.6),
+                         0 0 60px rgba(255, 105, 180, 0.5);
+            margin: 20px 0;
+            animation: pulse 1.5s ease-in-out infinite;
+            letter-spacing: 3px;
+        }
+
+        .subtitle {
+            font-size: 1.5em;
+            color: #e0e0e0;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            margin-top: 20px;
+            animation: fadeInOut 3s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                text-shadow: 0 0 20px rgba(0, 0, 0, 0.3), 
+                             0 0 40px rgba(255, 105, 180, 0.5);
+            }
+            50% {
+                text-shadow: 0 0 30px rgba(0, 0, 0, 0.5), 
+                             0 0 60px rgba(255, 105, 180, 0.8);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% {
+                opacity: 0.5;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+            animation: twinkle 3s infinite;
+            pointer-events: none;
+        }
+
+        @keyframes twinkle {
+            0%, 100% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #ff69b4;
+            pointer-events: none;
+            z-index: 2;
+            animation: confettiFall 3s linear infinite;
+        }
+
+        @keyframes confettiFall {
+            to {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="starContainer"></div>
+    
+    <div class="container">
+        <div class="birthday-text">🎂 SELAMAT ULANG TAHUN 🎂</div>
+        <div class="name-text">SAYANGGKUU CINTAKUUU</div>
+        <div class="subtitle">✨ Semoga hari ini penuh kebahagiaan dan berkah ✨</div>
+        <button onclick="window.location.href='kontol.html'" style="margin-top: 30px; padding: 10px 20px; font-size: 1em; color: #fff; background: #ff69b4; border: none; border-radius: 5px; cursor: pointer; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: background 0.3s ease;">Lihat Kenangan Kita</button>
+        
+    </div>
+
+    <script>
+        // Buat bintang di latar belakang
+        function createStars() {
+            const starContainer = document.getElementById('starContainer');
+            for (let i = 0; i < 50; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 50 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starContainer.appendChild(star);
+            }
+        }
+
+        // Buat salju yang jatuh
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.className = 'snowflake';
+            
+            // Variasi tipe salju
+            const snowTypes = ['❄', '❅', '❆', '⛄', '🎿'];
+            snowflake.textContent = snowTypes[Math.floor(Math.random() * snowTypes.length)];
+            
+            // Posisi horizontal random
+            snowflake.style.left = Math.random() * 100 + '%';
+            snowflake.style.fontSize = (Math.random() * 1 + 0.5) + 'em';
+            
+            // Kecepatan random
+            const speeds = ['slow', 'medium', 'fast'];
+            snowflake.classList.add(speeds[Math.floor(Math.random() * speeds.length)]);
+            
+            // Delay random
+            snowflake.style.animationDelay = Math.random() * 2 + 's';
+            
+            document.body.appendChild(snowflake);
+            
+            // Hapus setelah selesai animasi
+            setTimeout(() => {
+                snowflake.remove();
+            }, 25000);
+        }
+
+        // Buat confetti
+        function createConfetti() {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.left = Math.random() * 100 + '%';
+            confetti.style.top = '-20px';
+            confetti.style.background = ['#ff69b4', '#ffeb3b', '#00bcd4', '#e91e63', '#ffc107'][Math.floor(Math.random() * 5)];
+            confetti.style.animationDelay = Math.random() * 0.5 + 's';
+            
+            document.body.appendChild(confetti);
+            
+            setTimeout(() => {
+                confetti.remove();
+            }, 5000);
+        }
+
+        // Inisialisasi
+        createStars();
+
+        // Buat salju secara berkala
+        setInterval(createSnowflake, 100);
+
+        // Buat confetti secara berkala
+        setInterval(createConfetti, 150);
+
+        // Bonus: Play sound effect jika browser mendukung
+        window.addEventListener('load', function() {
+            // Anda bisa menambahkan audio jika diperlukan
+        });
+    </script>
+</body>
+</html>
